@@ -342,25 +342,28 @@ async function loadResponses() {
     regexMap.clear(); //Reset the maps!
     fileMap.clear();
 
-    try {
+
         const files = await getFiles(dir);
         files.forEach(file => { 
-            let path = file.substr(dir.length);
-            let json = JSON.parse(FS.readFileSync(file, 'utf8'));
 
-            if (Array.isArray(json)) {
-                for (let o of json) {
-                    addResponse(o, path);
+            try {
+                let path = file.substr(dir.length);
+                let json = JSON.parse(FS.readFileSync(file, 'utf8'));
+
+                if (Array.isArray(json)) {
+                    for (let o of json) {
+                        addResponse(o, path);
+                    }
+                } else {
+                    addResponse(json, path);
                 }
-            } else {
-                addResponse(json, path);
+            } catch(err) {
+		        console.warn(`Unable to scan autoresponses file ${file}: ` + err);
             }
-        });
+        } );
 
         console.log("Loaded " + regexMap.size + " regex replies(s).");
-    } catch(err) {
-		console.warn("Unable to scan autoresponses directory: " + err);
-    }
+    
 
 }
 

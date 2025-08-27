@@ -3,7 +3,8 @@
     "discord.js": "^14.16.1",
     "openai": "^4.57.2",
     "tesseract.js": "^5.1.1",
-    "tiktoken": "^1.0.16"
+    "tiktoken": "^1.0.16",
+    "unzipper": "^0.12.3"
   },
   "name": "iroh-bot",
   "description": "A Node.js discord bot that matches messages to regex. Made to try help people if staff aren't around.",
