@@ -1,5 +1,5 @@
-# PK-Help-Bot
-A Node.js discord bot that matches messages to regex. Made to try help people if staff aren't around.
+# Iroh
+A Node.js discord bot that is designed to help users in the ProjectKorra discord.
 
 There are a few commands for ops built in, but nothing too fancy. Things like
 
@@ -7,6 +7,7 @@ There are a few commands for ops built in, but nothing too fancy. Things like
 - `!bar @user` - Prevents the bot from responding to that user. Can be used when people abuse the bot. 
 - `!unbar @user` - Unbars the user.
 - `!ping` - See the latency of the bot
+- `!update [-d]` - Updates the bot from the github repo
 
 The bot also has a `/core/modules` and `/core/commands` folder that are loaded dynamically. They allow for easy additions for the bot.
 
