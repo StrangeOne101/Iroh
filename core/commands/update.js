@@ -12,14 +12,14 @@ const blacklist = [
     "token.txt"
 ]
 
-const TEMP_DIR = path.join(__dirname, "update_temp");
+const TEMP_DIR = path.join(process.cwd, "update_temp");
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest);
     https.get(url, (response) => {
       if (response.statusCode !== 200) {
-        return reject(new Error(`Download failed: ${response.statusCode}`));
+        return reject(new Error(`Download failed: ${response.statusCode} ${response.statusMessage} ${JSON.stringify(response.headers)}`));
       }
       response.pipe(file);
       file.on("finish", () => file.close(resolve));
@@ -52,7 +52,7 @@ function copyFiles(src, dest) {
     const destPath = path.join(dest, file);
 
     if (fs.statSync(srcPath).isDirectory()) {
-        fs.rmdirSync(srcPath); //Remove the directory to remove child files
+        fs.rmSync(srcPath, {force: true}); //Remove the directory to remove child files
         fs.mkdirSync(srcPath);
       copyFiles(srcPath, destPath);
     } else {
@@ -81,23 +81,22 @@ module.exports = {
     },
     run: async function(messageObj, channel, sender, args) {
         try {
-            const zipUrl = repoUrl.endsWith(".git")
-            ? repoUrl.replace(".git", "/archive/refs/heads/master.zip")
-            : repoUrl + "/archive/refs/heads/master.zip";
-
             if (fs.existsSync(TEMP_DIR)) fs.rmSync(TEMP_DIR, { recursive: true, force: true });
             fs.mkdirSync(TEMP_DIR);
 
             const zipPath = path.join(TEMP_DIR, "update.zip");
             console.log("Downloading update...");
             channel.send("Downloading update...");
-            await downloadFile(zipUrl, zipPath).then(() => {
+            var failed = false;
+            await downloadFile(getUpdateURL(), zipPath).then(() => {
                 console.log("✅ Download successful.");
                 channel.send("✅ Download successful.");
             }, (reject) => {
                 console.error("❌ Download failed!", reject);
                 channel.send("❌ Download failed! " + reject);
+                failed = true;
             });
+            if (failed) return;
 
             console.log("Extracting zip file...");
             channel.send("Extracting zip file...")
@@ -108,7 +107,7 @@ module.exports = {
 
             console.log("Replacing files...");
             channel.send("Replacing files...");
-            copyFiles(extractedPath, __dirname);
+            copyFiles(extractedPath, process.cwd);
 
             if (args.indexOf("-d") !== -1) {
                 checkAndUpdateDependencies(channel);
@@ -122,8 +121,8 @@ module.exports = {
             channel.send("✅ Update complete! Restarting bot...");
             process.exit(0);
         } catch (error) {
-            console.error("Update failed:", error);
-            channel.send("Update failed: " + error);
+            console.error("❌ Update failed:", error);
+            channel.send("❌ Update failed: " + error);
         }
         
     }
