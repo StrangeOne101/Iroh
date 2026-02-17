@@ -1,0 +1,4 @@
+{
+    "trigger":"^\\.airparticles",
+    "response":"After Minecraft 1.21.9 the particles airbending uses were changed which broke airbending.\nTo fix the issue, go to the directory `serverRoot/plugins/ProjectKorra` and edit the file `config.yml` to replace SPELL to CLOUD. \nConfig node to edit: `Properties.Air.Particles`"
+}
