@@ -1,4 +1,4 @@
 {
     "trigger": "^\\.commands",
-    "response": "Command List:\n`.troubleshoot`\n`.jedcore`\n`.spirits`\n`.addons`\n`.download`\n`.perms`\n`.luckperms`\n`.arclight`\n`.usage`\n`.flight`\n`.blood`\n`.bedrock`\n`.singleplayer`\n`.serverlist\n`.airbug``"
+    "response": "Command List:\n`.troubleshoot`\n`.jedcore`\n`.spirits`\n`.addons`\n`.download`\n`.perms`\n`.luckperms`\n`.arclight`\n`.usage`\n`.flight`\n`.blood`\n`.bedrock`\n`.singleplayer`\n`.serverlist`\n`.airbug`"
 }
