@@ -1,0 +1,7 @@
+{
+    "triggers": [
+        "^\\.airbug",
+        "^\\.airparticles"
+    ],
+    "response": "If you are on minecraft 1.21.9+. make sure `plugins\\Projectkorra\\config.yml`. Has Path `Air.Particles` set to `CLOUD`. then save and run `\\b reload`."
+}

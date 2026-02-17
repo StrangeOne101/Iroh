@@ -10,6 +10,8 @@
         "When logging in",
         "troubleshoot/plugin/error/other.json",
         "Other",
-        "troubleshoot/plugin/error/other.json"
+        "troubleshoot/plugin/error/other.json",
+        "When Air bending",
+        "troubleshoot/plugin/airbug.json"
     ]
 }
