@@ -5,6 +5,7 @@ var config = {};
 const file = "./config/config.json";
 const tokenFile = "./config/token.txt";
 const openaiTokenFile = './config/openai_token.txt'
+const quotesFile = "./config/quotes.json"
 
 //Get document, or throw exception on error
 
@@ -37,6 +38,8 @@ function load() {
 			console.log(`You haven't provided your openai api key! Please insert it into ${openaiTokenFile}!`);
 			return false;
 		}
+		let quotes = JSON.parse(fs.readFileSync(quotesFile, "utf8"));
+		config.Quotes = quotes;
 		config.OpenAIToken = openaiToken;
 	} catch (e) {
 		console.log(e);
@@ -110,6 +113,13 @@ function getUpdateURL() {
 	return config.UpdateURL;
 }
 
+function getQuotes() {
+	return config.Quotes;
+}
+
+function getPunishmentChannel(){
+	return config.PunishmentChannel;
+}
 //ES6
 module.exports = {
 	getToken,
@@ -125,6 +135,9 @@ module.exports = {
 	barUser,
 	load,
 	save,
+	getQuotes,
+	getPunishmentChannel,
 	getOps: () => config.Ops,
 	getBarredUsers: () => config.BarredUsers
+	
 }

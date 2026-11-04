@@ -1,6 +1,6 @@
 const { client } = require("../bot")
 const config = require("./config")
-const { Snowflake, TextChannel, Guild, Message, User, Member } = require("discord.js");
+const { Snowflake, TextChannel, Guild, Message, User, Member, PermissionFlagsBits } = require("discord.js");
 
 const reloadEvents = [];
 
@@ -177,7 +177,18 @@ async function getMessage(snowflake, context = undefined) {
     });
     return Promise.reject("Failed to get message from ID");
 }
-
+/**
+ * Check if user is a Moderator
+ * @param {Snowflake|String} snowflake
+ * @param {Snowflake|String} channelId
+ * @returns True if they are a Moderator
+ */
+async function isModerator(snowflake,channelId){
+    const channel = await client.channels.fetch(channelId);
+    const guild = channel.guild;
+    const member = await guild.members.fetch(snowflake);
+    return member.permissions.has(PermissionFlagsBits.ModerateMembers);
+}
 /**
  * Get if the user is an op or not
  * @param {Snowflake|String} snowflake 
@@ -210,5 +221,6 @@ module.exports = {
     getId,
     getUser,
     stripFormatting,
+    isModerator,
     reloadEvents
 }

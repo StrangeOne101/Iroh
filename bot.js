@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, PermissionsBitField } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, PermissionsBitField } = require('discord.js');
 const http = require("http");
 const { exit } = require('process');
 const fs = require('fs');
@@ -9,10 +9,12 @@ const motd = fs.readFileSync('./config/motd.txt', 'utf8') || "Bot ready!";
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildModeration,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
     ],
+    partials: [Partials.Message, Partials.GuildMember, Partials.User],
 });
 
 module.exports = {
